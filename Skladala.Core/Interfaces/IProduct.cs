@@ -1,8 +1,7 @@
-﻿using Skladala.Core.Interfaces;
-
-namespace Skladala.Core.Models
+﻿
+namespace Skladala.Core.Interfaces
 {
-    public abstract class Product: IProduct
+    public interface IProduct
     {
         public string? Id { get; set; }
         public string Name { get; set; }
@@ -10,7 +9,6 @@ namespace Skladala.Core.Models
         public string Manufacturer { get; set; }
         public double Сost { get; set; }
         public string Group { get; set; }
-        public abstract void ValueValidation();
-
+        public void ValueValidation();
     }
 }

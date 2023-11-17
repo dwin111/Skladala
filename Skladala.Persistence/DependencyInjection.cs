@@ -1,6 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
+using Skladala.Core.Models;
+using Skladala.Persistence.Models;
+using Skladala.Persistence.Repository;
+using Skladala.Persistence.Repository.Interfaces;
 
 namespace Skladala.Persistence
 {
@@ -9,7 +12,9 @@ namespace Skladala.Persistence
         public static IServiceCollection AddPersistence(this IServiceCollection
            services, IConfiguration configuration)
         {
-            
+            services.Configure<DBSetings>(configuration.GetSection("MongoDb"));
+            services.AddSingleton<IRepository<FoodProduct>, Repository<FoodProduct>>();
+            services.AddSingleton<IRepository<NonfoodProducts>, Repository<NonfoodProducts>>();
 
             return services;
         }

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skladala.App", "Skladala.Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skladala.Persistence", "Skladala.Persistence\Skladala.Persistence.csproj", "{563D94CA-E920-4550-8BD7-AC04A5AD6E42}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skladala.API", "Skladala.API\Skladala.API.csproj", "{0B79FC1D-EF75-4C10-AC52-E03F88EACA91}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{563D94CA-E920-4550-8BD7-AC04A5AD6E42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{563D94CA-E920-4550-8BD7-AC04A5AD6E42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{563D94CA-E920-4550-8BD7-AC04A5AD6E42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B79FC1D-EF75-4C10-AC52-E03F88EACA91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B79FC1D-EF75-4C10-AC52-E03F88EACA91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B79FC1D-EF75-4C10-AC52-E03F88EACA91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B79FC1D-EF75-4C10-AC52-E03F88EACA91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
