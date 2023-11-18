@@ -9,6 +9,5 @@ namespace Skladala.Core.Interfaces
         public string Manufacturer { get; set; }
         public double Сost { get; set; }
         public string Group { get; set; }
-        public void ValueValidation();
     }
 }

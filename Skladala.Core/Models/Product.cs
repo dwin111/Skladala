@@ -10,7 +10,6 @@ namespace Skladala.Core.Models
         public string Manufacturer { get; set; }
         public double Сost { get; set; }
         public string Group { get; set; }
-        public abstract void ValueValidation();
 
     }
 }

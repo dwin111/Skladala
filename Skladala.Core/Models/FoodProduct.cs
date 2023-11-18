@@ -8,9 +8,5 @@ namespace Skladala.Core.Models
         public double Weight { get; set; }
         public DateTime ExpirationDate { get; set; }
 
-        public override void ValueValidation()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
