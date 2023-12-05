@@ -13,8 +13,9 @@ namespace Skladala.Persistence
            services, IConfiguration configuration)
         {
             services.Configure<DBSetings>(configuration.GetSection("MongoDb"));
-            services.AddSingleton<IRepository<FoodProduct>, Repository<FoodProduct>>();
-            services.AddSingleton<IRepository<NonfoodProducts>, Repository<NonfoodProducts>>();
+            services.AddSingleton<IRepository<FoodProductDto>, Repository<FoodProductDto>>();
+            services.AddSingleton<IRepository<NonfoodProductsDto>, Repository<NonfoodProductsDto>>();
+            services.AddSingleton<IRepository<AllProductDto>, Repository<AllProductDto>>();
 
             return services;
         }

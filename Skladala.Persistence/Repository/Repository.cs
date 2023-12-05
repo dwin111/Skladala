@@ -1,17 +1,12 @@
 ﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using Skladala.Core.Interfaces;
+using Skladala.Persistence.Interfaces;
 using Skladala.Persistence.Models;
 using Skladala.Persistence.Repository.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Skladala.Persistence.Repository
 {
-    public class Repository<T> : IRepository<T> where T : IProduct
+    public class Repository<T> : IRepository<T> where T : IProductDto
     {
         private readonly IMongoCollection<T> _collection;
 
@@ -24,7 +19,7 @@ namespace Skladala.Persistence.Repository
 
         public async Task CreateAsync(T model)
         {
-            await _collection.InsertOneAsync(model);
+           await _collection.InsertOneAsync(model);
         }
 
         public async Task DeleteAsync(string id, CancellationToken cancellationToken)
@@ -39,7 +34,8 @@ namespace Skladala.Persistence.Repository
 
         public async Task<IEnumerable<T>> GetAsync(CancellationToken cancellationToken)
         {
-            return await _collection.Find(_ => true).ToListAsync(cancellationToken);
+            var models = await _collection.Find(_ => true).ToListAsync(cancellationToken);
+            return models;
         }
 
         public async Task UpdateAsync(T model)

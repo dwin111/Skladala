@@ -1,0 +1,299 @@
+﻿@page "/"
+@using Skladala.Persistence.Models;
+
+
+
+<PageTitle>Index</PageTitle>
+
+
+
+ <h3 class="mb-5">Products</h3>
+
+
+<div class="input-group rounded mb-3">
+    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" @bind="@SearchName" />
+    <button type="button" class="btn btn-outline-secondary data-mdb-ripple-init" @onclick="(async () => await Search(SearchName))">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+        </svg>
+    </button>
+
+</div>
+
+<div class="mb-3">
+    <select class="custom-select form-control" id="inputGroupSelect02" @bind="@Category">
+        <option value="0" selected>All</option>
+        <option value="1">Name</option>
+        <option value="2">Manufacturer</option>
+        <option value="3">Quantity </option>
+        <option value="4">Cost</option>
+    </select>
+
+</div>
+<button type="button" class="btn btn-warning" @onclick="(() => Sort())">Sort</button>
+<div class="input-group rounded mb-3">
+    <div>
+        <span >Food Product</span>
+        <input class="ms-1" type="checkbox" aria-label="Checkbox for following text input" @bind="@IsFoodProduct" @onclick="(async () => await TypeProduct())">
+    </div>
+    <div class="ms-3">
+        <span >Nonfood Product</span>
+        <input class="ms-1" type="checkbox" aria-label="Checkbox for following text input" @bind="@IsNonfoodProduct" @onclick="(async () => await TypeProduct())">
+    </div>
+    <div class="ms-3">
+        <span>Quantity Product: @QuantityProduct</span>
+    </div>
+</div>
+
+
+@if (fullProductCatalogs != null && fullProductCatalogs.Count() > 0)
+{
+    <div class="row  mt-3">
+        @foreach (var product in fullProductCatalogs)
+        {
+            <div class="col-md-3 mb-2" @onclick="(() => OpenModelForm(product))">
+                <a >
+                    <div class="card">
+                        <div class="row">
+                            <div class="card-body" >
+                                <h5 class="card-title mb-3">
+                                    @product.Name
+                                </h5>
+                                <p>
+                                    Quantity: @product.Quantity
+                                </p>
+                                <div class="input-group rounded">
+                                    <p>Тип товару: &nbsp;</p>
+                                    @if (@product.IsFoodProduct == true)
+                                    {
+                                        <p>Продовольчий</p>
+                                    }
+                                    else{
+                                        <p>Не продовольчий</p>
+                                    }
+                                </div>
+                                <p class="card-text">
+                                    <b>@product.Cost.ToString("C")</b>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                                            
+                </a>
+            </div>
+        }
+    </div>
+
+}
+
+@if (modalForm)
+{
+    <ModalView TitleText="Updating" Close="(() => CloseModelForm())" Create="(async () => await Update(ModalProduct))">
+        <BodyContent>
+            <p>Name: @ModalProduct.Name</p>
+            <div class="input-group rounded">
+                <p>Тип товару: &nbsp;</p>
+                @if (@ModalProduct.IsFoodProduct == true)
+                {
+                    <p>Продовольчий</p>
+                }
+                else
+                {
+                    <p>Не продовольчий</p>
+                }
+            </div>
+            <p>Quantity</p>
+            <input class="" type="number" @bind="@ModalProduct.Quantity" /><br />
+            <p>Cost</p>
+            <input class="" type="number" @bind="@ModalProduct.Cost" /><br />
+            <button type="button" class="btn btn-warning" @onclick="(() => Delete(ModalProduct))">Delete</button>
+
+        </BodyContent>
+    </ModalView>
+}
+
+@code
+{
+    public int Category;
+    public string SearchName = "";
+    public bool IsFoodProduct = false;
+    public bool IsNonfoodProduct = false;
+    public bool modalForm = false;
+    public int QuantityProduct = 0;
+    public AllProductDto ModalProduct = new();
+    public List<AllProductDto> fullProductCatalogs { get; set; }
+
+    [Inject]
+    public ProductServices productServices { get; set; }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadProduct();
+    }
+
+    public void CountingAmountProduct()
+    {
+        QuantityProduct = 0;
+        foreach (var item in fullProductCatalogs)
+        {
+            QuantityProduct += item.Quantity;
+        }
+    }
+
+
+    public async Task Sort()
+    {
+        List<AllProductDto> newProductCatalog = new();
+        if ((Category == 0 || Category == 1))
+        {
+            newProductCatalog = fullProductCatalogs.OrderBy(x => x.Name).ToList();
+        }
+        else if (Category == 2)
+        {
+            newProductCatalog = fullProductCatalogs.OrderBy(x => x.Manufacturer).ToList();
+        }
+        else if (Category == 3)
+        {
+            newProductCatalog = fullProductCatalogs.OrderBy(x => x.Quantity).ToList();
+        }
+        else if (Category == 4)
+        {
+            newProductCatalog = fullProductCatalogs.OrderBy(x => x.Cost).ToList();
+        }
+        fullProductCatalogs = newProductCatalog;
+    }
+
+    public async Task Delete(AllProductDto productDto)
+    {
+        await productServices.DeleteAsync(productDto.Id);
+        fullProductCatalogs.Remove(productDto);
+        CountingAmountProduct();
+        CloseModelForm();
+    }
+    public async Task Update(AllProductDto productDto)
+    {
+        await productServices.UpdateAsync(productDto);
+        CountingAmountProduct();
+        CloseModelForm();
+    }
+
+    public void OpenModelForm(AllProductDto productDto)
+    {
+        modalForm = true;
+        ModalProduct = productDto;
+    }
+    public void CloseModelForm()
+    {
+        modalForm = false;
+        ModalProduct = new();
+    }
+
+    public async Task LoadProduct()
+    {
+        fullProductCatalogs = await productServices.GetAsync();
+        CountingAmountProduct();
+    }
+
+    public async Task TypeProduct()
+    {
+        fullProductCatalogs.Clear();
+        var products = await productServices.GetAsync();
+        foreach (AllProductDto product in products)
+        {
+            if (IsFoodProduct || IsNonfoodProduct)
+            {
+                if (IsFoodProduct)
+                {
+                    if (product.IsFoodProduct == true)
+                    {
+                        fullProductCatalogs.Add(product);
+                    }
+                }
+                if (IsNonfoodProduct)
+                {
+                    if (product.IsFoodProduct == false)
+                    {
+                        fullProductCatalogs.Add(product);
+                    }
+                }
+                CountingAmountProduct();
+            }
+            else
+            {
+                await LoadProduct();
+            }
+        }
+    }
+
+    public async Task Search(string search)
+    {
+        if (search.Replace(" ", "") != "")
+        {
+            fullProductCatalogs.Clear();
+            var products = await productServices.GetAsync();
+            foreach (AllProductDto product in products)
+            {
+                if (IsFoodProduct && !IsNonfoodProduct)
+                {
+                    if (product.IsFoodProduct == true)
+                    {
+                        await SearchText(product,search);
+                    }
+                }
+                else if (IsNonfoodProduct && !IsFoodProduct)
+                {
+                    if (product.IsFoodProduct == false)
+                    {
+                        await SearchText(product, search);
+                    }
+                }
+                else
+                {
+                    await SearchText(product, search);
+                }
+
+
+            }
+        }
+        else
+        {
+            await LoadProduct();
+        }
+    }
+
+    private async Task SearchText(AllProductDto product, string search)
+    {
+        if ((product.Name.Length >= search.Length
+        && product.Name.ToLower().Substring(0, search.Length).Equals(search.ToLower()))
+        && (Category == 0 || Category == 1)
+        )
+        {
+            fullProductCatalogs.Add(product);
+        }
+        else if ((product.Manufacturer.Length >= search.Length
+        && product.Manufacturer.ToLower().Substring(0, search.Length).Equals(search.ToLower()))
+        && (Category == 0 || Category == 2)
+        )
+        {
+            fullProductCatalogs.Add(product);
+        }
+        else if ((product.Quantity.ToString().Length >= search.Length
+        && product.Quantity.ToString().ToLower().Substring(0, search.Length).Equals(search.ToLower()))
+        && (Category == 0 || Category == 3)
+        )
+        {
+            fullProductCatalogs.Add(product);
+        }
+        else if ((product.Cost.ToString().Length >= search.Length
+        && product.Cost.ToString().ToLower().Substring(0, search.Length).Equals(search.ToLower()))
+        && (Category == 0 || Category == 4)
+        )
+        {
+            fullProductCatalogs.Add(product);
+        }
+        CountingAmountProduct();
+    }
+
+
+}

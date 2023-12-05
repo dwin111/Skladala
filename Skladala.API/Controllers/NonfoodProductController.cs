@@ -8,12 +8,11 @@ namespace Skladala.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FoodProductController : ControllerBase
+    public class NonfoodProductController : ControllerBase
     {
+        private readonly NonfoodProductServices _services;
 
-        private readonly FoodProductServices _services;
-
-        public FoodProductController(FoodProductServices services)
+        public NonfoodProductController(NonfoodProductServices services)
         {
             _services = services;
         }
@@ -31,21 +30,21 @@ namespace Skladala.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(FoodProduct model)
+        public async Task<IActionResult> Create(NonfoodProducts model)
         {
-
-            FoodProductDto productDto = new FoodProductDto() 
+            NonfoodProductsDto productDto = new NonfoodProductsDto()
             {
                 Name = model.Name,
                 Quantity = model.Quantity,
-                ExpirationDate = model.ExpirationDate,  
-                DateManufacture = model.DateManufacture,
-                Group = model.Group,    
-                IsFoodProduct = true,
+                Group = model.Group,
+                IsFoodProduct = false,
                 Manufacturer = model.Manufacturer,
                 Cost = model.Cost,
-                Weight = model.Weight,
+                Height = model.Height,
+                Width = model.Width,
+
             };
+
 
             bool IsCreate = await _services.CreateAsync(productDto);
             if (IsCreate)
@@ -54,6 +53,5 @@ namespace Skladala.API.Controllers
             }
             return BadRequest();
         }
-
     }
 }

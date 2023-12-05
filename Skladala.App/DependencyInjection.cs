@@ -13,6 +13,9 @@ namespace Skladala.App
             services.AddPersistence(configuration);
 
             services.AddTransient<FoodProductServices>();
+            services.AddTransient<NonfoodProductServices>();
+            services.AddTransient<ProductServices>();
+
 
             return services;
         }

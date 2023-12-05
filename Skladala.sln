@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34003.232
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skladala.Core", "Skladala.Core\Skladala.Core.csproj", "{B832505F-B509-4007-9593-01B5E6478BF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skladala.Core", "Skladala.Core\Skladala.Core.csproj", "{B832505F-B509-4007-9593-01B5E6478BF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skladala.App", "Skladala.App\Skladala.App.csproj", "{805A5387-9889-46C1-84C6-85FD5EDDA861}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skladala.App", "Skladala.App\Skladala.App.csproj", "{805A5387-9889-46C1-84C6-85FD5EDDA861}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skladala.Persistence", "Skladala.Persistence\Skladala.Persistence.csproj", "{563D94CA-E920-4550-8BD7-AC04A5AD6E42}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skladala.Persistence", "Skladala.Persistence\Skladala.Persistence.csproj", "{563D94CA-E920-4550-8BD7-AC04A5AD6E42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skladala.API", "Skladala.API\Skladala.API.csproj", "{0B79FC1D-EF75-4C10-AC52-E03F88EACA91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Skladala.API", "Skladala.API\Skladala.API.csproj", "{0B79FC1D-EF75-4C10-AC52-E03F88EACA91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skladala.View", "Skladala.View\Skladala.View.csproj", "{7369E896-A593-41EC-8BFE-C0199D8FE282}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{0B79FC1D-EF75-4C10-AC52-E03F88EACA91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B79FC1D-EF75-4C10-AC52-E03F88EACA91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B79FC1D-EF75-4C10-AC52-E03F88EACA91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7369E896-A593-41EC-8BFE-C0199D8FE282}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7369E896-A593-41EC-8BFE-C0199D8FE282}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7369E896-A593-41EC-8BFE-C0199D8FE282}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7369E896-A593-41EC-8BFE-C0199D8FE282}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
