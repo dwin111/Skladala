@@ -34,16 +34,17 @@ namespace Skladala.API.Controllers
         public async Task<IActionResult> Create(FoodProduct model)
         {
 
-            FoodProductDto productDto = new FoodProductDto() 
+            FoodProductDto productDto = new FoodProductDto()
             {
                 Name = model.Name,
                 Quantity = model.Quantity,
-                ExpirationDate = model.ExpirationDate,  
+                ExpirationDate = model.ExpirationDate,
                 DateManufacture = model.DateManufacture,
-                Group = model.Group,    
+                Group = model.Group,
                 IsFoodProduct = true,
                 Manufacturer = model.Manufacturer,
                 Cost = model.Cost,
+                ChangedPrice = 0,
                 Weight = model.Weight,
             };
 

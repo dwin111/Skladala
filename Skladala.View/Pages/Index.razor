@@ -51,30 +51,58 @@
     <div class="row  mt-3">
         @foreach (var product in fullProductCatalogs)
         {
-            <div class="col-md-3 mb-2" @onclick="(() => OpenModelForm(product))">
+            <div class="col-md-3 mb-2" >
                 <a >
                     <div class="card">
                         <div class="row">
                             <div class="card-body" >
-                                <h5 class="card-title mb-3">
-                                    @product.Name
-                                </h5>
-                                <p>
-                                    Quantity: @product.Quantity
-                                </p>
-                                <div class="input-group rounded">
-                                    <p>Тип товару: &nbsp;</p>
-                                    @if (@product.IsFoodProduct == true)
+                                <div @onclick="(() => OpenModelForm(product))">
+                                    <h5 class="card-title mb-3">
+                                        @product.Name
+                                    </h5>
+                                    <p>
+                                        Quantity: @product.Quantity
+                                    </p>
+                                    <div class="input-group rounded">
+                                        <p>Тип товару: &nbsp;</p>
+                                        @if (@product.IsFoodProduct == true)
+                                        {
+                                            <p>Продовольчий</p>
+                                        }
+                                        else{
+                                            <p>Не продовольчий</p>
+                                        }
+                                    </div>
+
+                                    @if(product.ChangedPrice != 0)
                                     {
-                                        <p>Продовольчий</p>
+                                        @if (@product.IsFoodProduct == true)
+                                        {
+                                            <p class="text-danger">The validity period is coming to an end</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="text-danger">Exceeded dimensions.</p>
+                                        }
+                                        <p class="card-text">
+                                            <b>@product.ChangedPrice.ToString("C")</b>
+                                        </p>
                                     }
                                     else{
-                                        <p>Не продовольчий</p>
+                                        <p class="card-text">
+                                            <b>@product.Cost.ToString("C")</b>
+                                        </p>
                                     }
                                 </div>
-                                <p class="card-text">
-                                    <b>@product.Cost.ToString("C")</b>
-                                </p>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-danger form-control" @onclick="(async () => await SubtractOneProduct(product))">-</button>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-success form-control" @onclick="(async () => await AddOneProduct(product))"> +</button>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -90,38 +118,101 @@
 {
     <ModalView TitleText="Updating" Close="(() => CloseModelForm())" Create="(async () => await Update(ModalProduct))">
         <BodyContent>
-            <p>Name: @ModalProduct.Name</p>
-            <div class="input-group rounded">
-                <p>Тип товару: &nbsp;</p>
+           @* Name *@
+            <div class="input-group">
+                <p class="col-form-label">Name:&nbsp; </p>
+                <p class="col-form-label">@ModalProduct.Name</p>
+            </div>
+            @* Quantity *@
+            <div class="form-group row">
+                <label for="inputQuantity" class="col-sm-2 col-form-label">Quantity:&nbsp;</label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" id="inputQuantityt" @bind="@ModalProduct.Quantity">
+                </div>
+            </div>
+            @* Manufacturer *@
+            <div class="input-group">
+                <p class="col-form-label">Manufacturer:&nbsp; </p>
+                <p class="col-form-label">@ModalProduct.Manufacturer</p>
+            </div>
+
+            <div class="input-group rounded">               
                 @if (@ModalProduct.IsFoodProduct == true)
                 {
-                    <p>Продовольчий</p>
+                    @* Type product *@
+                    <div class="input-group">
+                        <p class="col-form-label">Type product:&nbsp; </p>
+                        <p class="col-form-label">Food product</p>
+                    </div>
+                    @* Weight *@
+                    <div class="input-group">
+                        <p class="col-form-label">Weight:&nbsp; </p>
+                        <p class="col-form-label">@ModalProduct.Weight</p>
+                    </div>
+                    @* DateManufacture *@
+                    <div class="input-group">
+                        <p class="col-form-label">Manufacture Date:&nbsp; </p>
+                        <p class="col-form-label">@ModalProduct.DateManufacture</p>
+                    </div>
+                    @* ExpirationDate *@
+                    <div class="input-group">
+                        <p class="col-form-label">Expiration Date:&nbsp; </p>
+                        <p class="col-form-label">@ModalProduct.ExpirationDate</p>
+                    </div>
                 }
                 else
                 {
-                    <p>Не продовольчий</p>
+                    @* Type product *@
+                    <div class="input-group">
+                        <p class="col-form-label">Type product:&nbsp; </p>
+                        <p class="col-form-label">Nonfood product</p>
+                    </div>
+                    @* Width *@
+                    <div class="input-group">
+                        <p class="col-form-label">Width:&nbsp; </p>
+                        <p class="col-form-label">@ModalProduct.Width</p>
+                    </div>
+                    @* Height *@
+                    <div class="input-group">
+                        <p class="col-form-label">Height:&nbsp; </p>
+                        <p class="col-form-label">@ModalProduct.Height</p>
+                    </div>
                 }
             </div>
-            <p>Quantity</p>
-            <input class="" type="number" @bind="@ModalProduct.Quantity" /><br />
-            <p>Cost</p>
-            <input class="" type="number" @bind="@ModalProduct.Cost" /><br />
+            @* Cost *@
+            <div class="form-group row">
+                <label for="inputCost" class="col-sm-2 col-form-label">Cost</label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" id="inputCost" @bind="@ModalProduct.Cost">
+                </div>
+            </div>
             <button type="button" class="btn btn-warning" @onclick="(() => Delete(ModalProduct))">Delete</button>
-
         </BodyContent>
     </ModalView>
 }
 
+@if (modalError)
+{
+    <ModalViewError TitleText="Error" Close="(() => modalError = false)">
+        <BodyContent>
+            <h5 class="text-danger">@ErrorMessage</h5>
+        </BodyContent>
+    </ModalViewError>
+}
+
 @code
 {
-    public int Category;
-    public string SearchName = "";
-    public bool IsFoodProduct = false;
-    public bool IsNonfoodProduct = false;
-    public bool modalForm = false;
-    public int QuantityProduct = 0;
-    public AllProductDto ModalProduct = new();
-    public List<AllProductDto> fullProductCatalogs { get; set; }
+    private bool modalError = false;
+    private string ErrorMessage = "";
+
+    private int Category;
+    private string SearchName = "";
+    private bool IsFoodProduct = false;
+    private bool IsNonfoodProduct = false;
+    private bool modalForm = false;
+    private int QuantityProduct = 0;
+    private AllProductDto ModalProduct = new();
+    private List<AllProductDto> fullProductCatalogs { get; set; }
 
     [Inject]
     public ProductServices productServices { get; set; }
@@ -131,8 +222,7 @@
     {
         await LoadProduct();
     }
-
-    public void CountingAmountProduct()
+    private void CountingAmountProduct()
     {
         QuantityProduct = 0;
         foreach (var item in fullProductCatalogs)
@@ -140,9 +230,22 @@
             QuantityProduct += item.Quantity;
         }
     }
+    private async Task AddOneProduct(AllProductDto product)
+    {
 
+        product.Quantity++;
+        await Update(product);
 
-    public async Task Sort()
+    }
+    private async Task SubtractOneProduct(AllProductDto product)
+    {
+        if (product.Quantity > 0)
+        {
+            product.Quantity--;
+            await Update(product);
+        }
+    }
+    private async Task Sort()
     {
         List<AllProductDto> newProductCatalog = new();
         if ((Category == 0 || Category == 1))
@@ -163,39 +266,46 @@
         }
         fullProductCatalogs = newProductCatalog;
     }
-
-    public async Task Delete(AllProductDto productDto)
+    private async Task Delete(AllProductDto productDto)
     {
         await productServices.DeleteAsync(productDto.Id);
         fullProductCatalogs.Remove(productDto);
         CountingAmountProduct();
         CloseModelForm();
     }
-    public async Task Update(AllProductDto productDto)
+    private async Task Update(AllProductDto productDto)
     {
-        await productServices.UpdateAsync(productDto);
-        CountingAmountProduct();
-        CloseModelForm();
-    }
 
-    public void OpenModelForm(AllProductDto productDto)
+        if (productDto.Cost >= 0 && productDto.Quantity >= 0)
+        {
+            await productServices.UpdateAsync(productDto);
+            CountingAmountProduct();
+            CloseModelForm();
+        }
+        else
+        {
+            ErrorMessage = "Non valid data";
+            modalError = true;
+        }
+        await LoadProduct();
+
+    }
+    private void OpenModelForm(AllProductDto productDto)
     {
         modalForm = true;
         ModalProduct = productDto;
     }
-    public void CloseModelForm()
+    private void CloseModelForm()
     {
         modalForm = false;
         ModalProduct = new();
     }
-
-    public async Task LoadProduct()
+    private async Task LoadProduct()
     {
         fullProductCatalogs = await productServices.GetAsync();
         CountingAmountProduct();
     }
-
-    public async Task TypeProduct()
+    private async Task TypeProduct()
     {
         fullProductCatalogs.Clear();
         var products = await productServices.GetAsync();
@@ -225,8 +335,7 @@
             }
         }
     }
-
-    public async Task Search(string search)
+    private async Task Search(string search)
     {
         if (search.Replace(" ", "") != "")
         {
@@ -261,7 +370,6 @@
             await LoadProduct();
         }
     }
-
     private async Task SearchText(AllProductDto product, string search)
     {
         if ((product.Name.Length >= search.Length

@@ -36,7 +36,8 @@ namespace Skladala.App.Services
                         IsFoodProduct = foodProduct.IsFoodProduct,
                         Manufacturer = foodProduct.Manufacturer,
                         Weight = foodProduct.Weight,
-                        Cost = foodProduct.Cost
+                        Cost = foodProduct.Cost,
+                        ChangedPrice = foodProduct.ChangedPrice,
                     }) ;
                 }
                 return foogProduct;

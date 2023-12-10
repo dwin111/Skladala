@@ -7,6 +7,7 @@ namespace Skladala.Core.Interfaces
         public int Quantity { get; set; }
         public string Manufacturer { get; set; }
         public double Cost { get; set; }
+        public double ChangedPrice { get; set; }
         public string Group { get; set; }
     }
 }

@@ -40,6 +40,7 @@ namespace Skladala.API.Controllers
                 IsFoodProduct = false,
                 Manufacturer = model.Manufacturer,
                 Cost = model.Cost,
+                ChangedPrice = 0,
                 Height = model.Height,
                 Width = model.Width,
 

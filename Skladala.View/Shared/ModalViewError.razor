@@ -16,7 +16,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="(() => Close.InvokeAsync())">Close</button>
-                <button type="button" class="btn btn-primary" @onclick="(() => Create.InvokeAsync())">Update</button>
             </div>
         </div>
     </div>
@@ -32,9 +31,6 @@
     public string TitleText { get; set; }
     [Parameter]
     public EventCallback Close { get; set; }
-    [Parameter]
-    public EventCallback Create { get; set; }
-
 
 
 }

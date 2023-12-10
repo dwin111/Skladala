@@ -1,4 +1,5 @@
-﻿using Skladala.Persistence.Models;
+﻿using Skladala.Persistence.Interfaces;
+using Skladala.Persistence.Models;
 using Skladala.Persistence.Repository.Interfaces;
 
 
@@ -20,9 +21,14 @@ namespace Skladala.App.Services
                 var allProduct = await _productRepository.GetAsync(default);
                 foreach (var item in allProduct)
                 {
-                    if((item.ExpirationDate - DateTime.Now).TotalHours <= ((item.ExpirationDate - item.DateManufacture).TotalHours * 0.2))
+                    if(item.IsFoodProduct && item.ChangedPrice == 0 && (item.ExpirationDate - DateTime.Now).TotalHours <= ((item.ExpirationDate - item.DateManufacture).TotalHours * 0.2))
                     {
-                        item.Cost -= item.Cost * 0.5;
+                        item.ChangedPrice = item.Cost * 0.5;
+                        await UpdateAsync(item);
+                    }
+                    if (!item.IsFoodProduct && item.ChangedPrice == 0 && item.Width > 100 || item.Height > 100 )
+                    {
+                        item.ChangedPrice = item.Cost * 1.5;
                         await UpdateAsync(item);
                     }
                 }
@@ -51,6 +57,17 @@ namespace Skladala.App.Services
             {
                 return false;
             }
+
+            if (productDto.IsFoodProduct && exitingsDriver.Cost != productDto.Cost && 
+                 (productDto.ExpirationDate - DateTime.Now).TotalHours <= ((productDto.ExpirationDate - productDto.DateManufacture).TotalHours * 0.2))
+            {
+                productDto.ChangedPrice = productDto.Cost * 0.5;
+            }
+            if (!productDto.IsFoodProduct && productDto.ChangedPrice == 0 && productDto.Width > 100 || productDto.Height > 100)
+            {
+                productDto.ChangedPrice = productDto.Cost * 1.5;
+            }
+
             await _productRepository.UpdateAsync(productDto);
             return true;
         }

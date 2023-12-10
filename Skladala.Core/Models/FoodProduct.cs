@@ -9,6 +9,5 @@ namespace Skladala.Core.Models
         public DateTime DateManufacture { get; set; }
         public DateTime ExpirationDate { get; set; }
 
-
     }
 }
