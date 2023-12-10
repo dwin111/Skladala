@@ -14,7 +14,6 @@ namespace Skladala.View.Services
         {
             _httpClient = httpClient;
         }
-
         public async Task<List<NonfoodProductsDto>> GetAsync()
         {
             try
@@ -40,7 +39,6 @@ namespace Skladala.View.Services
                 throw;
             }
         }
-
         public async Task<bool> CreateAsync(NonfoodProducts foodProduct)
         {
             try

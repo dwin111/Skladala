@@ -3,7 +3,6 @@
 
 <PageTitle>CreateProduct</PageTitle>
 
-
 <div class="mb-3">
     <p>Product Name</p>
     <input type="text" class="form-control" placeholder="Product Name" aria-label="Product Name" aria-describedby="basic-addon1" @bind="@ProductDto.Name">
@@ -71,14 +70,12 @@ else
         <input type="number" class="form-control" placeholder="Width" aria-label="Width" aria-describedby="basic-addon1" @bind="@ProductDto.Width">
     </div>
 }
-
 <div class="mb-3">
     <p>Cost</p>
     <input type="number" class="form-control" placeholder="Cost" aria-label="Cost" aria-describedby="basic-addon1" @bind="@ProductDto.Cost">
 </div>
 
 <button class="btn btn-success" @onclick="(async () => await CreateProducts())">Create</button>
-
 
 @if (modalError)
 {
@@ -103,7 +100,6 @@ else
     public NonfoodProductServices nonfoodProductServices { get; set; }
     [Inject]
     public FoodProductServices foodProductServices { get; set; }
-
 
     public async Task CreateProducts()
     {

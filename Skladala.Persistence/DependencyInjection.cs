@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Skladala.Core.Models;
 using Skladala.Persistence.Models;
 using Skladala.Persistence.Repository;
 using Skladala.Persistence.Repository.Interfaces;

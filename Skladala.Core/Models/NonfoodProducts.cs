@@ -1,5 +1,4 @@
-﻿using Skladala.Core.Interfaces;
-using System;
+﻿
 namespace Skladala.Core.Models
 {
     public class NonfoodProducts : Product

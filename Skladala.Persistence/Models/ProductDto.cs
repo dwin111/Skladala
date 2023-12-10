@@ -1,8 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
-using Skladala.Core.Interfaces;
 using Skladala.Core.Models;
 using Skladala.Persistence.Interfaces;
-
 
 namespace Skladala.Persistence.Models
 {

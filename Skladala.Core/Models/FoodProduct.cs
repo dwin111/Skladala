@@ -1,6 +1,4 @@
-﻿using Skladala.Core.Interfaces;
-using System;
-
+﻿
 namespace Skladala.Core.Models
 {
     public class FoodProduct : Product
