@@ -64,13 +64,13 @@
                                         Quantity: @product.Quantity
                                     </p>
                                     <div class="input-group rounded">
-                                        <p>Тип товару: &nbsp;</p>
+                                        <p>Type product: &nbsp;</p>
                                         @if (@product.IsFoodProduct == true)
                                         {
-                                            <p>Продовольчий</p>
+                                            <p>Food product</p>
                                         }
                                         else{
-                                            <p>Не продовольчий</p>
+                                            <p>Nonfood product</p>
                                         }
                                     </div>
 
@@ -116,7 +116,7 @@
 
 @if (modalForm)
 {
-    <ModalView TitleText="Updating" Close="(() => CloseModelForm())" Create="(async () => await Update(ModalProduct))">
+    <ModalView TitleText="Product" Close="(() => CloseModelForm())" Create="(async () => await Update(ModalProduct))">
         <BodyContent>
            @* Name *@
             <div class="input-group">
